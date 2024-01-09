@@ -3,7 +3,7 @@ boundary p p p
 atom_style atomic
 box tilt large
 read_data in.lmp
-replicate 14 14 28
+replicate 14 14 28 # for fcc use 28 28 28 for bcc/hcp crystal systems
 timestep 0.001
 
 pair_style deepmd graph.pb
