@@ -1,12 +1,13 @@
+# General LAMMPS input file for TPC melting determination- Saidi Group - CMA 20230101 
 units metal
 boundary p p p
 atom_style atomic
 box tilt large
 read_data in.lmp
-replicate 14 14 28 #for fcc use. 28 28 28 for bcc/hcp crystal systems
+replicate 14 14 28 #for fcc use. 28 14 28 for bcc/hcp crystal systems
 timestep 0.001
 
-pair_style deepmd graph.pb # this is the compressed verison of the ELEMENT.pb file to speed up MD simulations 
+pair_style deepmd graph.pb # this is the compressed verison of the ELEMENT.pb file to speed up MD simulations. Use DeepMD-kit function "dp compress -i "ELEMENT.pb" -o graph.pb
 pair_coeff * *
 neighbor 2.5 bin
 neigh_modify delay 10 check yes
@@ -37,7 +38,7 @@ thermo_style custom step etotal pe ke press vol pxx pyy pzz temp c_LiquidTemp c_
 reset_timestep 0
 unfix 1
 run 0
-velocity all create ${Tm} 11111111 rot no dist gaussian
+velocity all create ${Tm} 1111 rot no dist gaussian # Change 1111 to randomize initial velocities
 fix 1 all npt temp ${Tm} ${Tm} $(20*dt) iso ${Press} ${Press} $(1000*dt) drag 0.2
 fix_modify 1 temp SolidTemp
 dump dnve all custom 1000 Step1_Equi.* id type x y z c_2
@@ -48,7 +49,6 @@ write_data heat1
 
 #--------Melt liquid at Tm_melt--------#
 reset_timestep 0
-velocity liquid create ${Tm2} 11111111 rot no dist gaussian
 fix 1 liquid npt temp ${Tm3} ${Tm3} $(20*dt) x ${Press} ${Press} $(1000*dt) drag 0.2
 fix_modify 1 temp LiquidTemp
 dump dnve all custom 1000 Step2_Heat.* id type x y z c_2
