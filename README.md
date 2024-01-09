@@ -1,7 +1,7 @@
 # 20-DNPs-Tm
 Here are the VASP-base training datasets, relevant scripts for generating atomistic potentials, and the resulting [DeepMD-kit]( https://github.com/deepmodeling/deepmd-kit/releases/tag/v2.2.1 ) trained potentials (DNPs).
 
-We trained DNPs using the deepMD-kit for 23 elements across the periodic table.
+We trained DNPs using the DeepMD-kit for 20 elements across the Periodic Table; these potentials have been extended/modified from the previous [datasets]( https://github.com/saidigroup/23-Single-Element-DNPs/tree/main ) to improve the modeling of melting behavior and the element's liquid phase.
 
 Three randomly seeded DNPs were generated for each potential. Up to three iterations of adaptive learning refinement were applied to reduce standard deviations among these randomly seeded DNPs. The final iterations of these DNPs can be located in the "DNPs" directory.
 
