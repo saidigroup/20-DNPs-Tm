@@ -7,6 +7,6 @@ Three randomly seeded DNPs were generated for each atomistic potential. Up to 14
 
 The "[Training_Data]( https://github.com/saidigroup/20-DNPs-Tm/tree/main/Training%20Datasets )" directory contains all the training data used to fit the DNPs for each element. The VASP trajectories and the *.npy files are in these compressed files.
 
-An example of the LAMMPS input script and structure can be found in the two-phase coexistence directory "[TPC]( https://github.com/saidigroup/20-DNPs-Tm/tree/main/TPC )".  The VASP "INCAR" file, used to calculate each element's ground-state lattice's cohesive energy, can also be found here.   
+An example of the LAMMPS input script and structure can be found in the two-phase coexistence directory "[TPC]( https://github.com/saidigroup/20-DNPs-Tm/tree/main/TPC )".  The VASP "[INCAR]( https://github.com/saidigroup/20-DNPs-Tm/blob/main/TPC/INCAR )" file, used to calculate each element's ground-state lattice's cohesive energy, can also be found here.   
 
 The [VASP](https://github.com/saidigroup/23DNPs_and_me/blob/main/LAMMPS_VASP_Scripts%20for%20Calculations/Elastic_constants/INCAR_elastic) and [LAMMPS]( https://github.com/saidigroup/23-Single-Element-DNPs/tree/main/LAMMPS_VASP_Scripts%20for%20Calculations/Elastic_constants )  files used for validation of basic material property benchmarks are identical to what we previously used and can be found [here]( https://github.com/saidigroup/23-Single-Element-DNPs/tree/main/LAMMPS_VASP_Scripts%20for%20Calculations ).
