@@ -1,0 +1,77 @@
+units metal
+boundary p p p
+atom_style atomic
+box tilt large
+read_data in.lmp
+replicate 14 14 28
+timestep 0.001
+
+pair_style deepmd graph.pb
+pair_coeff * *
+neighbor 2.5 bin
+neigh_modify delay 10 check yes
+
+variable Tm equal TTT
+variable Tm2 equal 1.42*${Tm}
+variable Tm3 equal 1.33*${Tm}
+variable Tm_melt equal ${Tm}*1.05
+variable Press equal PPP
+
+variable lz equal "lz"
+variable z_cen equal ${lz}/2
+region liquid block INF INF INF INF INF ${z_cen} units box
+group liquid region liquid
+group solid subtract all liquid
+
+compute 2 all pe/atom
+compute LiquidTemp liquid temp
+compute SolidTemp solid temp
+
+fix 1 all box/relax iso ${Press} vmax 0.001
+min_style cg
+minimize 1e-10 1e-10 500000 1000000
+thermo 500
+thermo_style custom step etotal pe ke press vol pxx pyy pzz temp c_LiquidTemp c_SolidTemp
+
+#--------Equilibrate at Tm--------#
+reset_timestep 0
+unfix 1
+run 0
+velocity all create ${Tm} 11111111 rot no dist gaussian
+fix 1 all npt temp ${Tm} ${Tm} $(20*dt) iso ${Press} ${Press} $(1000*dt) drag 0.2
+fix_modify 1 temp SolidTemp
+dump dnve all custom 1000 Step1_Equi.* id type x y z c_2
+run 15000
+unfix 1
+undump dnve
+write_data heat1
+
+#--------Melt liquid at Tm_melt--------#
+reset_timestep 0
+velocity liquid create ${Tm2} 11111111 rot no dist gaussian
+fix 1 liquid npt temp ${Tm3} ${Tm3} $(20*dt) x ${Press} ${Press} $(1000*dt) drag 0.2
+fix_modify 1 temp LiquidTemp
+dump dnve all custom 1000 Step2_Heat.* id type x y z c_2
+run 20000
+unfix 1
+undump dnve
+write_data melt1
+
+#--------Cool liquid to Tm--------#
+reset_timestep 0
+fix 1 liquid npt temp ${Tm_melt} ${Tm_melt} $(20*dt) x ${Press} ${Press} $(1000*dt) drag 0.2
+fix_modify 1 temp LiquidTemp
+dump dnve all custom 1000 Step3_Cool.* id type x y z c_2
+run 15000
+unfix 1
+undump dnve
+write_data cool1
+
+#--------Fix nph on entire system--------#
+reset_timestep 0
+timestep 0.001
+neighbor 3.0 bin
+fix 1 all nph iso ${Press} ${Press} $(500*dt)
+dump dnve all custom 1000 Melt_nph.* id type x y z c_2
+run 120000
+write_data two_phase
