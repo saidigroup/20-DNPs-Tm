@@ -3,19 +3,19 @@ boundary p p p
 atom_style atomic
 box tilt large
 read_data in.lmp
-replicate 14 14 28 # for fcc use 28 28 28 for bcc/hcp crystal systems
+replicate 14 14 28 #for fcc use. 28 28 28 for bcc/hcp crystal systems
 timestep 0.001
 
-pair_style deepmd graph.pb
+pair_style deepmd graph.pb # this is the compressed verison of the ELEMENT.pb file to speed up MD simulations 
 pair_coeff * *
 neighbor 2.5 bin
 neigh_modify delay 10 check yes
 
-variable Tm equal TTT
+variable Tm equal TTT # this is the guess of the melting temperature
 variable Tm2 equal 1.42*${Tm}
 variable Tm3 equal 1.33*${Tm}
 variable Tm_melt equal ${Tm}*1.05
-variable Press equal PPP
+variable Press equal PPP # this is the pressure to run the NPT simulation at.
 
 variable lz equal "lz"
 variable z_cen equal ${lz}/2
