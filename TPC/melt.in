@@ -1,4 +1,4 @@
-# General LAMMPS input file for TPC melting determination- Saidi Group - CMA 20230101 
+# General LAMMPS input file for TPC melting determination --- Saidi Group --- CMA 20230101 
 units metal
 boundary p p p
 atom_style atomic
