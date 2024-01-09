@@ -2,7 +2,6 @@ PREC=A
 ENCUT=720
 ALGO=normal
 EDIFF=1E-8
-##EDIFFG=-1E-6
 LREAL=F
 NPAR=8
 KPAR=16
@@ -17,7 +16,7 @@ SIGMA=0.15
 #opt
 ISIF=2
 POTIM=0.1 
-NSW=500 
+NSW=200 
 IBRION=2  
 
 LWAVE=F
@@ -28,4 +27,4 @@ KSPACING=0.12
 KGAMMA=F
 
 ispin=2
-MAGMOM =
+MAGMOM= #Add Magmom for each element; see material project database for values
